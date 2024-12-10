@@ -1,0 +1,31 @@
+{
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "name": "projects",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start:backend": "cd apps/shared-calendar/backend && nodemon server.js",
+        "start:frontend": "cd apps/shared-calendar/frontend && ng serve --proxy-config proxy.conf.json",
+        "start": "npm-run-all --parallel start:backend start:frontend"
+    },
+    "keywords": [],
+    "author": "Simon Damain",
+    "license": "ISC",
+    "description": "C'est mon premier projet perso en Angular et node js",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.8.3",
+        "primeicons": "^7.0.0",
+        "primeng": "^17.18.12"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5"
+    }
+}
