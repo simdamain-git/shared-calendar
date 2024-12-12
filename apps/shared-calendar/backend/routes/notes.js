@@ -10,6 +10,7 @@ router.get('/notes', auth, async (req, res) => {
     const notes = await Note.find({ userId: req.userData.userId }).sort({ createdAt: -1 });
     res.json({ error: null, notes });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Erreur lors de la récupération des notes' });
   }
 });
@@ -28,7 +29,7 @@ router.put('/notes', auth, async (req, res) => {
   }
 });
 
-router.patch('/notes/:id', auth, async (req, res) => {
+router.post('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
     const { content } = req.body;
