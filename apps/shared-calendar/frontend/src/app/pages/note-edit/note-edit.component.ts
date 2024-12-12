@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-note-edit',
+  standalone: true,
+  imports: [],
   templateUrl: './note-edit.component.html',
-  styleUrls: ['./note-edit.component.scss'],
+  styleUrl: './note-edit.component.scss'
 })
-export class NoteEditComponent  implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {}
+export class NoteEditComponent {
 
 }

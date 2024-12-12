@@ -1,5 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NoteEditComponent } from './note-edit.component';
 
@@ -7,16 +6,16 @@ describe('NoteEditComponent', () => {
   let component: NoteEditComponent;
   let fixture: ComponentFixture<NoteEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NoteEditComponent ],
-      imports: [IonicModule.forRoot()]
-    }).compileComponents();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NoteEditComponent]
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(NoteEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

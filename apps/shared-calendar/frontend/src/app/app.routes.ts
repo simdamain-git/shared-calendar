@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
-import { NotesListComponent } from './pages/notes-list/notes-list.component';
+import { MainComponent } from './pages/main/main.component';
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
-import { PageMainComponent } from './pages/page-main/page-main.component';
+import { NotesListComponent } from './pages/notes-list/notes-list.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'signup', component: SignupComponent },
-    { path: '', component: PageMainComponent, children: [
+    { path: 'register', component: RegisterComponent },
+    { path: '', component: MainComponent, canActivate: [authGuard],children: [
         { path: 'notes', component: NotesListComponent },
-    { path: 'note-edit/:id', component: NoteEditComponent },
+        { path: 'note-edit/:id', component: NoteEditComponent },
     ]},
-    { path: '', redirectTo: 'login', pathMatch: 'full' }
+    { path: '', redirectTo: 'notes', pathMatch: 'full' }
 ];

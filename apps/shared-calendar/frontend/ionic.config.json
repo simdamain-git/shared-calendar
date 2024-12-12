@@ -1,7 +1,6 @@
 {
-  "name": "ionic-app-base",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
+    "name": "ionic-app",
+    "app_id": "",
+    "type": "angular-standalone",
+    "integrations": {}
+  }

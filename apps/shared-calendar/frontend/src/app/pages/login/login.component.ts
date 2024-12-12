@@ -37,6 +37,6 @@ export class LoginComponent {
   }
 
   navigate() {
-    this.router.navigateByUrl('signup');
+    this.router.navigateByUrl('register');
     }
 }

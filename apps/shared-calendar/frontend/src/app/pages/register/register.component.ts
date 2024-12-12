@@ -5,15 +5,14 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-signup',
+  selector: 'app-register',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class SignupComponent {
+export class RegisterComponent {
   name: string = '';
   email: string = '';
   password: string = '';
