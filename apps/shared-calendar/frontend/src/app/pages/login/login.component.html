@@ -1,19 +1,24 @@
-<ion-content class="ion-padding">
-    <div class="login-container">
-      <h1>Connexion</h1>
-      <form (ngSubmit)="onLogin()">
-        <ion-item>
-          <ion-label>Username: </ion-label>
-          <ion-input [(ngModel)]="username" name="username" required></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Password: </ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-        </ion-item>
-        <ion-button expand="block" type="submit" class="ion-margin-top">Se connecter</ion-button>
-      </form>
-      <p class="ion-text-center ion-margin-top">
-        Pas encore de compte ? <a (click)="navigate()">S'inscrire</a>
-      </p>
-    </div>
+<ion-content>
+  <div class="padding">
+  <div class="logo">
+     <ion-icon color="light" name="person-circle-outline"></ion-icon> 
+  </div>
+  <ion-item >
+    <ion-label color="light">Email</ion-label>
+    <ion-input color="light" type="mail" placeholder="Adresse email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="light">Mot de passe</ion-label>
+    <ion-input color="light" type="password" placeholder="Mot de passe"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-button color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
+  </ion-item>
+
+  <ion-button color="light" expand="block" shape="round" fill="outline">Connexion</ion-button>
+  <br>
+  <ion-button color="tertiary" expand="block" shape="round">Inscription</ion-button>
+  </div>
 </ion-content>
