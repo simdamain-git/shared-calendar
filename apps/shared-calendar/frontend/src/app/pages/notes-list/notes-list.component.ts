@@ -19,11 +19,11 @@ export class NotesListComponent implements OnInit {
   public notes$: Observable<Note[]> = new Observable();
   constructor(private noteService: NoteService, private router: Router) {
     this.notes$ = of([]);
+    this.noteService.currentNote = null;
   }
 
   ngOnInit() {
     this.notes$ = this.noteService.getNotes();
-    console.log(this.notes$);
   }
 
   addNote() {
@@ -31,6 +31,7 @@ export class NotesListComponent implements OnInit {
   }
 
   editNote(note: Note) {
+    this.noteService.currentNote = note
     this.router.navigate(['/note-edit', note.id]);
   }
 }

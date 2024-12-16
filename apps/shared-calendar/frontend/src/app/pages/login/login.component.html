@@ -1,24 +1,30 @@
-<ion-content>
-  <div class="padding">
-  <div class="logo">
-     <ion-icon color="light" name="person-circle-outline"></ion-icon> 
-  </div>
-  <ion-item >
-    <ion-label color="light">Email</ion-label>
-    <ion-input color="light" type="mail" placeholder="Adresse email"></ion-input>
-  </ion-item>
+<ion-content class="ion-padding">
+    <div class="title">
+      <div class="icon">
+        <ion-icon name="person-circle-outline" color="secondary"></ion-icon>
+      </div>
+      <div class="text">
+        <ion-text>
+          <span>Sign in your account</span>
+        </ion-text>
+      </div>
+      
+    </div>
+    <div class="form">
+      <div class="item">
+        <ion-label>Email</ion-label>
+        <ion-input class="custom-input" [(ngModel)]="username" shape="round" placeholder="ex: jon.smith@email.com"></ion-input>
+      </div>
+        
+      <div class="item">
+        <ion-label>Password</ion-label>
+        <ion-input class="custom-input" [(ngModel)]="password"  shape="round" placeholder="*********" type="Password"></ion-input>
+      </div>
+    </div>
 
-  <ion-item>
-    <ion-label color="light">Mot de passe</ion-label>
-    <ion-input color="light" type="password" placeholder="Mot de passe"></ion-input>
-  </ion-item>
-
-  <ion-item lines="none">
-    <ion-button color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
-  </ion-item>
-
-  <ion-button color="light" expand="block" shape="round" fill="outline">Connexion</ion-button>
-  <br>
-  <ion-button color="tertiary" expand="block" shape="round">Inscription</ion-button>
-  </div>
+    <div class="actions">
+      <ion-button expand="block" color="secondary" (click)="onClick('login')">Connexion</ion-button>
+      <br>
+      <ion-text class="text-right">Pas de compte ? <a (click)="onClick('register')">S'incrire</a></ion-text>
+    </div>
 </ion-content>

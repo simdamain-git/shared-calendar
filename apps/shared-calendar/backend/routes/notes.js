@@ -15,24 +15,48 @@ router.get('/notes', auth, async (req, res) => {
   }
 });
 
-router.put('/notes', auth, async (req, res) => {
+router.get('/notes/:id', auth, async (req, res) => {
   try {
-    const { content } = req.body;
-    const note = new Note({
-      userId: req.userData.userId,
-      content
-    });
-    await note.save();
+    const noteId = req.params.id;
+    const note = await Note.findOne({ _id: noteId, userId: req.userData.userId });
+    
+    if (!note) {
+      return res.status(404).json({ error: 'Note non trouvée' });
+    }
+    
     res.json({ error: null, note });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur lors de la création de la note' });
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la récupération de la note' });
+  }
+});
+
+
+router.put('/notes/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, title } = req.body;
+    
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: id, userId: req.userData.userId },
+      { content, title },
+      { new: false, runValidators: true }
+    );    
+
+    if (!updatedNote) {
+      return res.status(404).json({ error: 'Note non trouvée ou non autorisée' });
+    }
+
+    res.json({ error: null, note: updatedNote });
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la note' });
   }
 });
 
 router.post('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
+    const { content, title } = req.body;
     const note = await Note.findOne({ _id: id, userId: req.userData.userId });
 
     if (!note) {
@@ -40,6 +64,7 @@ router.post('/notes/:id', auth, async (req, res) => {
     }
 
     note.content = content;
+    note.title = title
     note.lastUpdatedAt = Date.now();
     await note.save();
 

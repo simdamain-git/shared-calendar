@@ -1,23 +1,28 @@
-<ion-header>
+  <ion-header>
     <ion-toolbar>
       <ion-title>Mes Notes</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="addNote()">
-          <ion-icon name="add"></ion-icon>
-        </ion-button>
-      </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  
-  <ion-content>
-    <ion-list>
-      @for (note of notes$ | async; track note) {
-        <ion-item button (click)="editNote(note)">
-          <ion-label>
-            <h2>{{ note.title }}</h2>
-            <p>{{ note.content | slice:0:50 }}...</p>
-          </ion-label>
-        </ion-item>
+  <ion-content class="ion-padding">
+    <ion-grid>
+      <ion-row>
+        @for (note of notes$ | async; track note) {
+        <ion-col size="6" size-md="4">
+          <ion-card (click)="editNote(note)">
+            <ion-card-header>
+              <ion-card-title>{{ note.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{ note.content | slice:0:50 }}...
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
       }
-    </ion-list>
+      </ion-row>
+    </ion-grid>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button routerLink="/edit">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </ion-content>

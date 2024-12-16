@@ -33,8 +33,14 @@ export class RegisterComponent {
       }
     )
   }
-
-  navigate() {
-    this.router.navigateByUrl('login');
+    onClick(event: 'register' | 'login') {
+      switch(event) {
+        case 'register':
+          this.onSignup();
+          break
+        case 'login':
+          this.router.navigateByUrl('login');
+          break;
+      }
     }
 }

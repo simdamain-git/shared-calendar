@@ -1,23 +1,35 @@
 <ion-content class="ion-padding">
-    <div class="signup-container">
-      <h1>Inscription</h1>
-      <form (ngSubmit)="onSignup()">
-        <ion-item>
-          <ion-label position="floating">Nom</ion-label>
-          <ion-input type="text" [(ngModel)]="name" name="name" required></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Mot de passe</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-        </ion-item>
-        <ion-button expand="block" type="submit" class="ion-margin-top">S'inscrire</ion-button>
-      </form>
-      <p class="ion-text-center ion-margin-top">
-        Déjà un compte ? <a (click)="navigate()">Se connecter</a>
-      </p>
+  <div class="title">
+    <div class="icon">
+      <ion-icon name="person-circle-outline" color="secondary"></ion-icon>
     </div>
-  </ion-content>
+    <div class="text">
+      <ion-text>
+        <span>Create your account</span>
+      </ion-text>
+    </div>
+    
+  </div>
+  <div class="form">
+    <div class="item">
+      <ion-label>Email</ion-label>
+      <ion-input class="custom-input" shape="round" placeholder="ex: jon.smith@email.com"></ion-input>
+    </div>
+      
+    <div class="item">
+      <ion-label>Password</ion-label>
+      <ion-input class="custom-input" shape="round" placeholder="*********" type="Password"></ion-input>
+    </div>
+
+    <div class="item">
+      <ion-label>Confirm password</ion-label>
+      <ion-input class="custom-input" shape="round" placeholder="*********" type="Password"></ion-input>
+    </div>
+  </div>
+
+  <div class="actions">
+    <ion-button expand="block" color="secondary" (click)="onClick('register')">S'incrire</ion-button>
+    <br>
+    <ion-text class="text-right">Déjà un compte ? <a (click)="onClick('login')">Connexion</a></ion-text>
+  </div>
+</ion-content>

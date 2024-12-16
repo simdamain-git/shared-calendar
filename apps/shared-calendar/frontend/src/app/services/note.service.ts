@@ -11,24 +11,28 @@ import { Note } from '../models/note';
 export class NoteService {
   private apiUrl = environment.API_URL + 'notes';
   private notesSubject = new BehaviorSubject<Note[]>([]);
+
   notes$ = this.notesSubject.asObservable();
+
+  currentNote: Note;
+
 
   constructor(private http: HttpClient) {}
 
   getNotes(): Observable<Note[]> {
     return this.http.get<{ error: string | null; notes: Note[] }>(this.apiUrl).pipe(
       map(response => {
-        console.log(response);
         if (response.error) {
           throw new Error(response.error);
         }
-        return response.notes.map(note => new Note(
-          note.id,
+        return response.notes.map((note: any) => new Note(
+          note._id,
           note.title,
           note.content,
           new Date(note.createdAt),
           new Date(note.updatedAt)
-        ));
+        )
+      );
       })
     );
   }

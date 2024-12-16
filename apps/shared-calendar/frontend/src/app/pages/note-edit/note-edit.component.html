@@ -1,1 +1,23 @@
-<p>note-edit works!</p>
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/notes"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ isNewNote ? 'Nouvelle Note' : 'Modifier Note' }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  @if (note) {
+  <ion-content class="ion-padding">
+    <ion-item>
+      <ion-label position="floating">Titre</ion-label>
+      <ion-input [(ngModel)]="note.title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contenu</ion-label>
+      <ion-textarea [(ngModel)]="note.content" rows="6"></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" (click)="saveNote()" class="ion-margin-top">
+      Enregistrer
+    </ion-button>
+  </ion-content>
+}

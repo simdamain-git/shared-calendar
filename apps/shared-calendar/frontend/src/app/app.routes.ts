@@ -12,6 +12,7 @@ export const routes: Routes = [
     { path: '', component: MainComponent, canActivate: [authGuard],children: [
         { path: 'notes', component: NotesListComponent },
         { path: 'note-edit/:id', component: NoteEditComponent },
+        { path: '', redirectTo: 'notes', pathMatch: 'full' }
     ]},
     { path: '', redirectTo: 'notes', pathMatch: 'full' }
 ];

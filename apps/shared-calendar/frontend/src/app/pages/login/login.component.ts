@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class LoginComponent {
+
   isLoading: boolean = false;
 
   username: string = '';
@@ -29,14 +30,21 @@ export class LoginComponent {
 
   onLogin() {
     this.isLoading = true;
-   this.auth.userLogin({password: this.password, username: this.username}).subscribe(
-    (result) => {
-      this.router.navigateByUrl('notes');
-    }
-   )
+    this.auth.userLogin({password: this.password, username: this.username}).subscribe(
+     (result) => {
+       this.router.navigateByUrl('notes');
+     }
+    )
   }
 
-  navigate() {
-    this.router.navigateByUrl('register');
+    onClick(event: 'register' | 'login') {
+      switch(event) {
+        case 'register':
+          this.router.navigateByUrl('register');
+          break
+        case 'login':
+          this.onLogin();
+          break;
+      }
     }
 }
