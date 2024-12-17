@@ -32,6 +32,26 @@ router.get('/notes/:id', auth, async (req, res) => {
 });
 
 
+router.post('/notes', auth, async (req, res) => {
+  try {
+    const { content, title } = req.body;
+    const newNote = new Note({
+      content,
+      title,
+      userId: req.userData.userId,
+      createdAt: Date.now(),
+      lastUpdatedAt: Date.now()
+    });
+
+    await newNote.save();
+
+    res.status(201).json({ error: null, note: newNote });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la création de la note' });
+  }
+});
+
 router.put('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -39,8 +59,12 @@ router.put('/notes/:id', auth, async (req, res) => {
     
     const updatedNote = await Note.findOneAndUpdate(
       { _id: id, userId: req.userData.userId },
-      { content, title },
-      { new: false, runValidators: true }
+      { 
+        content, 
+        title,
+        lastUpdatedAt: Date.now()
+      },
+      { new: true, runValidators: true }
     );    
 
     if (!updatedNote) {
@@ -49,30 +73,11 @@ router.put('/notes/:id', auth, async (req, res) => {
 
     res.json({ error: null, note: updatedNote });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour de la note' });
   }
 });
 
-router.post('/notes/:id', auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { content, title } = req.body;
-    const note = await Note.findOne({ _id: id, userId: req.userData.userId });
-
-    if (!note) {
-      return res.status(404).json({ error: 'Cet identifiant est inconnu' });
-    }
-
-    note.content = content;
-    note.title = title
-    note.lastUpdatedAt = Date.now();
-    await note.save();
-
-    res.json({ error: null, note });
-  } catch (error) {
-    res.status(500).json({ error: 'Erreur lors de la mise à jour de la note' });
-  }
-});
 
 router.delete('/notes/:id', auth, async (req, res) => {
   try {

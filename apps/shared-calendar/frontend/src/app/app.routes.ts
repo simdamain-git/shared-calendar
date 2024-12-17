@@ -14,5 +14,4 @@ export const routes: Routes = [
         { path: 'note-edit/:id', component: NoteEditComponent },
         { path: '', redirectTo: 'notes', pathMatch: 'full' }
     ]},
-    { path: '', redirectTo: 'notes', pathMatch: 'full' }
 ];
