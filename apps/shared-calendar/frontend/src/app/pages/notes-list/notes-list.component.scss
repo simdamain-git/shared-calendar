@@ -1,0 +1,17 @@
+.custom-icon {
+    font-weight: 900;
+    padding: 20px;
+    cursor: pointer;
+    :hover{
+
+    }
+}
+
+.custom-content {
+    display: flex;
+    flex-wrap: nowrap;
+    height: calc(100vh - 56px);
+    .custom-item {
+        max-width: 100%;
+    }
+}

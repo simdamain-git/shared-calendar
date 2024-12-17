@@ -36,6 +36,7 @@ import {
   pieChartOutline,
   pieChartSharp,
   pricetag,
+  createOutline,
   settings,
   settingsOutline,
   settingsSharp,
@@ -53,6 +54,7 @@ export class IconLoader {
   public static load() {
     addIcons({
       add,
+      createOutline,
       alertCircle,
       archiveOutline,
       archiveSharp,

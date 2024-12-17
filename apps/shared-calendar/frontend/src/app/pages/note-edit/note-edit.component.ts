@@ -19,14 +19,12 @@ export class NoteEditComponent {
 
   constructor(private route: ActivatedRoute, private noteService: NoteService, private router: Router) {
     this.note = null;
+    
   }
 
   ngOnInit() {
-    this.isNewNote = !this.route.snapshot.paramMap.get('id');    
-    if (!this.noteService.currentNote) {
-      this.router.navigateByUrl('notes');
-    }
-    this.note = this.noteService.currentNote;
+    this.isNewNote = this.route.snapshot.paramMap.get('id') === 'new';    
+    this.note = this.noteService.currentNote ?? new Note();
   }
 
   saveNote() {
