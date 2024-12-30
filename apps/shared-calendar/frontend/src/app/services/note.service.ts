@@ -24,11 +24,12 @@ export class NoteService {
       map(response => {
         if (response.error) {
           throw new Error(response.error);
-        }
+        }        
         return response.notes.map((note: any) => new Note(
           note._id,
           note.title,
           note.content,
+          note.groupId,
           new Date(note.createdAt),
           new Date(note.updatedAt)
         )
@@ -43,6 +44,7 @@ export class NoteService {
         note.id,
         note.title,
         note.content,
+        note.groupId,
         new Date(note.createdAt),
         new Date(note.updatedAt)
       ))
@@ -55,6 +57,7 @@ export class NoteService {
         newNote.id,
         newNote.title,
         newNote.content,
+        note.groupId,
         new Date(newNote.createdAt),
         new Date(newNote.updatedAt)
       ))
@@ -67,6 +70,7 @@ export class NoteService {
         updatedNote.id,
         updatedNote.title,
         updatedNote.content,
+        note.groupId,
         new Date(updatedNote.createdAt),
         new Date(updatedNote.updatedAt)
       ))

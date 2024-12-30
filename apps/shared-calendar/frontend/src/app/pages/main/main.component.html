@@ -1,1 +1,19 @@
-<router-outlet />
+<div class="ion-page" id="main-content"> 
+  <ion-header>
+    <ion-toolbar color="primary" >
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      @if (currentPage) {
+        <div class="custom-toolbar">
+        <ion-icon name="{{currentPage.icon}}-sharp"></ion-icon>
+        <ion-title>{{currentPage.title | translate}}</ion-title>
+      </div>
+      }
+      
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <router-outlet />
+  </ion-content>
+</div>

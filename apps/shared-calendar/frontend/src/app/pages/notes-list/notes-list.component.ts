@@ -28,11 +28,11 @@ export class NotesListComponent implements OnInit {
 
   addNote() {
     this.noteService.currentNote = null;
-    this.router.navigateByUrl('/note-edit/new');
+    this.router.navigateByUrl('/notes-edit/new');
   }
 
   editNote(note: Note) {
     this.noteService.currentNote = note
-    this.router.navigateByUrl(`/note-edit/${note.id}`);
+    this.router.navigateByUrl(`/notes-edit/${note.id}`);
   }
 }

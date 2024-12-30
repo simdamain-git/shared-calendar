@@ -1,0 +1,10 @@
+{
+    "menu":{
+        "notes": "Notes",
+        "calendar": "Calendrier",
+        "rappel": "Rappel",
+        "courses": "Courses",
+        "group": "Groupes",
+        "logout": "Déconnexion"
+    }
+}

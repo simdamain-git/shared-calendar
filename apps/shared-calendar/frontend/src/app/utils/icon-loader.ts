@@ -47,7 +47,17 @@ import {
   trashOutline,
   trashSharp,
   warningOutline,
+  listSharp,
+  calendarSharp,
   warningSharp,
+  addOutline, 
+  alarmSharp,
+  cartSharp,
+  peopleSharp,
+  pencilSharp,
+  clipboardSharp,
+  people,
+  peopleOutline
 } from 'ionicons/icons';
 
 export class IconLoader {
@@ -56,10 +66,15 @@ export class IconLoader {
       add,
       createOutline,
       alertCircle,
+      calendarSharp,
+      peopleSharp,
+      cartSharp,
+      alarmSharp,
       archiveOutline,
       archiveSharp,
       bookmarkOutline,
       bookmarkSharp,
+      listSharp,
       checkmark,
       filterCircle,
       flame,
@@ -101,6 +116,10 @@ export class IconLoader {
       newspaper,
       helpCircleOutline,
       helpCircleSharp,
+      addOutline,
+      pencilSharp,
+      clipboardSharp,
+      peopleOutline
     });
   }
 }

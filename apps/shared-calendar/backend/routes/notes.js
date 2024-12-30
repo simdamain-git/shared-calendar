@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get('/notes', auth, async (req, res) => {
   try {
-    console.log(req, res);
     const notes = await Note.find({ userId: req.userData.userId }).sort({ createdAt: -1 });
     res.json({ error: null, notes });
   } catch (error) {
@@ -31,20 +30,19 @@ router.get('/notes/:id', auth, async (req, res) => {
   }
 });
 
-
 router.post('/notes', auth, async (req, res) => {
   try {
-    const { content, title } = req.body;
+    const { content, title, groupId } = req.body;
     const newNote = new Note({
       content,
       title,
       userId: req.userData.userId,
+      groupId: groupId || null,
       createdAt: Date.now(),
       lastUpdatedAt: Date.now()
     });
 
     await newNote.save();
-
     res.status(201).json({ error: null, note: newNote });
   } catch (error) {
     console.error(error);
@@ -55,13 +53,14 @@ router.post('/notes', auth, async (req, res) => {
 router.put('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { content, title } = req.body;
+    const { content, title, groupId } = req.body;
     
     const updatedNote = await Note.findOneAndUpdate(
       { _id: id, userId: req.userData.userId },
       { 
         content, 
         title,
+        groupId: groupId || null,
         lastUpdatedAt: Date.now()
       },
       { new: true, runValidators: true }

@@ -1,11 +1,3 @@
-  <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Mes Notes</ion-title>
-        <ion-buttons slot="end">
-        </ion-buttons>
-      </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding custom-content">
     <ion-list>
         @for (note of notes$ | async; track note) {
           <ion-item class="custom-item" (click)="editNote(note)">
@@ -21,4 +13,3 @@
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-  </ion-content>

@@ -1,0 +1,54 @@
+<ion-content class="ion-padding">
+    <ion-list>
+      <ion-item *ngFor="let group of groups">
+        <ion-label>{{ group.name }}</ion-label>
+        <ion-button fill="clear" (click)="deleteGroup(group.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" (click)="toggleMemberForm(group.id)">
+          <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-card *ngIf="selectedGroupId">
+      <ion-card-content>
+        <h2>Gérer les membres du groupe</h2>
+        
+        <ion-list>
+          <ion-item *ngFor="let member of groupMembers">
+            <ion-label>{{ member.username }}</ion-label>
+            <ion-button fill="clear" (click)="removeMember(member.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+        <form [formGroup]="memberForm" (ngSubmit)="addMember()">
+          <ion-item>
+            <ion-input formControlName="email" placeholder="email de l'utilisateur"></ion-input>
+          </ion-item>
+          <ion-button expand="block" type="submit" [disabled]="memberForm.invalid">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            Ajouter membre
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-card *ngIf="!selectedGroupId">
+      <ion-card-content>
+        <h2>Ajouter un groupe</h2>
+        <form [formGroup]="groupForm" (ngSubmit)="addGroup()">
+          <ion-item>
+            <ion-input formControlName="name" placeholder="Nom du groupe"></ion-input>
+          </ion-item>
+          <ion-button expand="block" type="submit" [disabled]="groupForm.invalid">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            Ajouter
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
