@@ -9,7 +9,7 @@ interface AuthResponse {
   refreshToken: string;
   user: {
     id: string;
-    username: string;
+    email: string;
   };
 }
 
@@ -24,13 +24,13 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  userLogin(credentials: { username: string; password: string }): Observable<AuthResponse> {
+  userLogin(credentials: { email: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.API_URL}signin`, credentials).pipe(
       tap(response => this.handleAuthResponse(response))
     );
   }
 
-  userRegister(userData: { username: string; password: string; mail: string }): Observable<AuthResponse> {
+  userRegister(userData: { email: string, password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.API_URL}signup`, userData).pipe(
       tap(response => this.handleAuthResponse(response))
     );

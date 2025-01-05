@@ -8,7 +8,7 @@ router.get('/groups', auth, async (req, res) => {
   try {
     console.log(req, res);
     const groups = await Group.find({ members: req.userData.userId })
-    .populate('members', 'username')
+    .populate('members', 'email')
     .sort({ createdAt: -1 });
     res.json({ error: null, groups });
   } catch (error) {
@@ -64,7 +64,8 @@ router.post('/groups', auth, async (req, res) => {
 
 router.delete('/groups/:id', auth, async (req, res) => {
   try {
-    const group = await Group.findOneAndDelete({ _id: req.params.id, createdBy: req.user._id });
+    const group = await Group.findOneAndDelete({ _id: req.params.id, createdBy: req.userData.userId });
+    
     if (!group) return res.status(404).send('Group not found or you are not the creator');
     res.send(group);
   } catch (error) {
@@ -85,12 +86,12 @@ router.get('/groups/:idGroup/members', auth, async (req, res) => {
 
     const members = await User.find(
       { _id: { $in: group.members } },
-      'id username'
+      'id email'
     );
 
     res.json(members.map(member => ({
       id: member._id.toString(),
-      username: member.username
+      email: member.email
     })));
   } catch (error) {
     console.error('Error:', error);
@@ -107,7 +108,7 @@ router.post('/groups/:id/members', auth, async (req, res) => {
       return res.status(403).json({ error: 'Seul le créateur du groupe peut ajouter des membres' });
     }
     
-    const userToAdd = await User.findOne({ username: req.body.email });
+    const userToAdd = await User.findOne({ email: req.body.email });
     if (!userToAdd) return res.status(404).json({ error: 'Utilisateur non trouvé' });
     
     if (group.members.includes(userToAdd._id)) {
@@ -128,9 +129,10 @@ router.delete('/groups/:id/members/:userId', auth, async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
     if (!group) return res.status(404).send('Group not found');
-    if (group.createdBy.toString() !== req.user._id.toString()) {
+    if (group.createdBy.toString() !== req.userData.userId.toString()) {
       return res.status(403).send('Only the group creator can remove members');
     }
+    
     group.members = group.members.filter(member => member.toString() !== req.params.userId);
     await group.save();
     res.send(group);

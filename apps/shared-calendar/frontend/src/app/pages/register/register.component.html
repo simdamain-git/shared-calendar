@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+  <div>
   <div class="title">
     <div class="icon">
       <ion-icon name="person-circle-outline" color="secondary"></ion-icon>
@@ -8,28 +8,29 @@
         <span>Create your account</span>
       </ion-text>
     </div>
-    
   </div>
-  <div class="form">
-    <div class="item">
-      <ion-label>Email</ion-label>
-      <ion-input class="custom-input" shape="round" placeholder="ex: jon.smith@email.com"></ion-input>
-    </div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSignup()">
+    <div class="form">
+      <div class="item">
+        <ion-label>Email</ion-label>
+        <ion-input class="custom-input" shape="round" formControlName="email" placeholder="ex: jon.smith@email.com"></ion-input>
+      </div>
       
-    <div class="item">
-      <ion-label>Password</ion-label>
-      <ion-input class="custom-input" shape="round" placeholder="*********" type="Password"></ion-input>
+      <div class="item">
+        <ion-label>Password</ion-label>
+        <ion-input class="custom-input" shape="round" formControlName="password" placeholder="*********" type="password"></ion-input>
+      </div>
+
+      <div class="item">
+        <ion-label>Confirm password</ion-label>
+        <ion-input class="custom-input" shape="round" formControlName="confirmPassword" placeholder="*********" type="password"></ion-input>
+      </div>
     </div>
 
-    <div class="item">
-      <ion-label>Confirm password</ion-label>
-      <ion-input class="custom-input" shape="round" placeholder="*********" type="Password"></ion-input>
+    <div class="actions">
+      <ion-button expand="block" color="secondary" type="submit" [disabled]="!registerForm.valid || isLoading">S'inscrire</ion-button>
+      <br>
+      <ion-text class="text-right">Déjà un compte ? <a (click)="onClick('login')">Connexion</a></ion-text>
     </div>
-  </div>
-
-  <div class="actions">
-    <ion-button expand="block" color="secondary" (click)="onClick('register')">S'incrire</ion-button>
-    <br>
-    <ion-text class="text-right">Déjà un compte ? <a (click)="onClick('login')">Connexion</a></ion-text>
-  </div>
-</ion-content>
+  </form>
+</div>

@@ -75,7 +75,7 @@ export class GroupManagementComponent {
 
   addMember() {
     if (this.memberForm.valid && this.selectedGroupId) {
-      this.groupService.addMemberToGroup(this.selectedGroupId, this.memberForm.value.userId).subscribe(() => {
+      this.groupService.addMemberToGroup(this.selectedGroupId, this.memberForm.value.email).subscribe(() => {
         this.loadGroupMembers(this.selectedGroupId!);
         this.memberForm.reset();
       });

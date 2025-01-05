@@ -1,50 +1,62 @@
-import { Component, OnInit} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-login.component',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
   imports: [
     IonicModule,
     CommonModule,
-    FormsModule
+    ReactiveFormsModule
   ]
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
   isLoading: boolean = false;
 
-  username: string = '';
-  password: string = '';
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private auth: AuthService,  private router: Router) {
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', Validators.required]
+    });
   }
 
   onLogin() {
-    this.isLoading = true;
-    this.auth.userLogin({password: this.password, username: this.username}).subscribe(
-     (result) => {
-       this.router.navigateByUrl('notes');
-     }
-    )
+    if (this.loginForm.valid) {
+      this.isLoading = true;
+      const { email, password } = this.loginForm.value;
+      this.auth.userLogin({ email, password }).subscribe(
+        (result) => {
+          this.router.navigateByUrl('');
+        },
+        (error) => {
+          console.error('Login error', error);
+          this.isLoading = false;
+        }
+      );
+    }
   }
 
-    onClick(event: 'register' | 'login') {
-      switch(event) {
-        case 'register':
-          this.router.navigateByUrl('register');
-          break
-        case 'login':
-          this.onLogin();
-          break;
-      }
+  onClick(event: 'register' | 'login') {
+    switch(event) {
+      case 'register':
+        this.router.navigateByUrl('register');
+        break;
+      case 'login':
+        this.onLogin();
+        break;
     }
+  }
 }

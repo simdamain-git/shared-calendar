@@ -1,0 +1,13 @@
+<ion-item>
+    <ion-label>{{ label ?? "common.date" | translate }}</ion-label>
+    <ion-datetime-button [datetime]="uniqueId" ></ion-datetime-button>
+  </ion-item>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+      [id]="uniqueId"
+      [(ngModel)]="value"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  

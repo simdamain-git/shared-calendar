@@ -1,0 +1,38 @@
+@if (eventForm ) {
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Titre</ion-label>
+      <ion-input formControlName="title" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <app-input-date [formControlName]="'start'" [label]="'Date de début'"></app-input-date>
+
+    <app-input-date [formControlName]="'end'" [label]="'Date de fin'"></app-input-date>
+
+    <ion-item>
+      <ion-label>Toute la journée</ion-label>
+      <ion-toggle formControlName="allDay" slot="end"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Type d'événement</ion-label>
+      <ion-select formControlName="type" slot="end">
+        <ion-select-option *ngFor="let type of eventTypes" [value]="type">{{type}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Répétition</ion-label>
+      <ion-select formControlName="repetition" slot="end">
+        <ion-select-option *ngFor="let rep of repetitionTypes" [value]="rep">{{rep}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!eventForm.valid">Créer l'événement</ion-button>
+  </form>
+}

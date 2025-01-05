@@ -11,15 +11,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   .then(async () => {
     console.log('MongoDB connected');
 
-    // Créer un utilisateur
-    const username = 'testuser';
-    const password = 'testpassword'; // Utilisez un mot de passe sécurisé en production
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({ username: username, password: hashedPassword });
-    await user.save();
-    console.log('Utilisateur créé:', user);
-
     // Créer des notes pour cet utilisateur
     const notes = [
       { userId: user._id, content: 'Première note', createdAt: new Date(), lastUpdatedAt: null },

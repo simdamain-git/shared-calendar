@@ -64,8 +64,8 @@ getGroupMembers(groupId: string): Observable<User[]> {
   return this.http.get<User[]>(`${this.apiUrl}/${groupId}/members`);
 }
 
-addMemberToGroup(groupId: string, userId: string): Observable<Group> {
-  return this.http.post<Group>(`${this.apiUrl}/${groupId}/members`, { userId });
+addMemberToGroup(groupId: string, email: string): Observable<Group> {
+  return this.http.post<Group>(`${this.apiUrl}/${groupId}/members`, { email });
 }
 
 removeMemberFromGroup(groupId: string, userId: string): Observable<Group> {

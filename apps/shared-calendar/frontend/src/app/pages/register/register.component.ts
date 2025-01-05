@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -8,39 +8,58 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent {
-  name: string = '';
-  email: string = '';
-  password: string = '';
-
-
+export class RegisterComponent implements OnInit {
+  registerForm: FormGroup;
   isLoading: boolean = false;
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      confirmPassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value
+      ? null : {'mismatch': true};
   }
 
   onSignup() {
-    this.isLoading = true;
-    this.auth.userRegister({username: this.name, password: this.password, mail: this.email})
-    .pipe()
-    .subscribe(
-      () => {
-        this.router.navigateByUrl('login');
-      }
-    )
-  }
-    onClick(event: 'register' | 'login') {
-      switch(event) {
-        case 'register':
-          this.onSignup();
-          break
-        case 'login':
-          this.router.navigateByUrl('login');
-          break;
-      }
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+      const { email, password } = this.registerForm.value;
+      this.auth.userRegister({ email, password})
+        .subscribe(
+          () => {
+            this.router.navigateByUrl('login');
+          },
+          error => {
+            console.error('Registration error', error);
+            this.isLoading = false;
+          }
+        );
     }
+  }
+
+  onClick(event: 'register' | 'login') {
+    switch(event) {
+      case 'register':
+        this.onSignup();
+        break;
+      case 'login':
+        this.router.navigateByUrl('login');
+        break;
+    }
+  }
 }

@@ -17,7 +17,7 @@
         
         <ion-list>
           <ion-item *ngFor="let member of groupMembers">
-            <ion-label>{{ member.username }}</ion-label>
+            <ion-label>{{ member.email }}</ion-label>
             <ion-button fill="clear" (click)="removeMember(member.id)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>

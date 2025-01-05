@@ -11,10 +11,10 @@ interface Page {
 })
 export class MenuService {
   public appPages: Page[] = [
+    { title: 'menu.calendar', url: '/agenda', icon: 'calendar' },
     { title: 'menu.notes', url: '/notes', icon: 'clipboard' },
-    { title: 'menu.calendar', url: '/calendar', icon: 'calendar' },
-    { title: 'menu.rappel', url: '/rappel', icon: 'alarm' },
-    { title: 'menu.courses', url: '/courses', icon: 'cart' }
+    // { title: 'menu.rappel', url: '/rappel', icon: 'alarm' },
+    // { title: 'menu.courses', url: '/courses', icon: 'cart' }
   ];
 
   public settingsPages: Page[] = [

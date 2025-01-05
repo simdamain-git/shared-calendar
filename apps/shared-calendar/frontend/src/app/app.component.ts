@@ -98,7 +98,7 @@ export class AppComponent implements AfterViewInit {
   async logout() {
     sessionStorage.clear();
     setTimeout(() => {
-      document.location.href = 'index.html';
+      document.location.href = '/login';
     }, 1000);
   }
 }

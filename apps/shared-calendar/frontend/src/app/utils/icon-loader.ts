@@ -57,7 +57,8 @@ import {
   pencilSharp,
   clipboardSharp,
   people,
-  peopleOutline
+  peopleOutline,
+  filterSharp
 } from 'ionicons/icons';
 
 export class IconLoader {
@@ -119,7 +120,8 @@ export class IconLoader {
       addOutline,
       pencilSharp,
       clipboardSharp,
-      peopleOutline
+      peopleOutline,
+      filterSharp
     });
   }
 }
