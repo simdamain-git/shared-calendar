@@ -21,6 +21,11 @@ const noteSchema = new mongoose.Schema({
     ref: 'Group',
     default: null
   },
+  visibility: {
+    type: String,
+    enum: ['private', 'group'],
+    default: 'private'
+  },
   createdAt: {
     type: Date,
     default: Date.now

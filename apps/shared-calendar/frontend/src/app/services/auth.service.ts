@@ -10,7 +10,7 @@ interface AuthResponse {
   user: {
     id: string;
     email: string;
-  };
+  }
 }
 
 @Injectable({
@@ -34,6 +34,14 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.API_URL}signup`, userData).pipe(
       tap(response => this.handleAuthResponse(response))
     );
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(`${this.API_URL}reset-password`, { token, password });
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/forgot-password`, { email });
   }
 
   logout(): void {

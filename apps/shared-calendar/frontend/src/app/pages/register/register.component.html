@@ -1,7 +1,7 @@
   <div>
   <div class="title">
     <div class="icon">
-      <ion-icon name="person-circle-outline" color="secondary"></ion-icon>
+      <ion-icon name="person-circle-outline" color="primary"></ion-icon>
     </div>
     <div class="text">
       <ion-text>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="actions">
-      <ion-button expand="block" color="secondary" type="submit" [disabled]="!registerForm.valid || isLoading">S'inscrire</ion-button>
+      <ion-button expand="block" type="submit" [disabled]="!registerForm.valid || isLoading">S'inscrire</ion-button>
       <br>
       <ion-text class="text-right">Déjà un compte ? <a (click)="onClick('login')">Connexion</a></ion-text>
     </div>

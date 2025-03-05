@@ -17,6 +17,11 @@ const eventSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group",
   },
+  visibility: {
+    type: String,
+    enum: ['private', 'group'],
+    default: 'private'
+  },
   type: {
     type: String,
     enum: ["event", "task", "birthday"],

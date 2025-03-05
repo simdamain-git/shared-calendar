@@ -16,7 +16,6 @@ export class NoteService {
 
   currentNote: Note;
 
-
   constructor(private http: HttpClient) {}
 
   getNotes(): Observable<Note[]> {
@@ -30,21 +29,22 @@ export class NoteService {
           note.title,
           note.content,
           note.groupId,
+          note.visibility,
           new Date(note.createdAt),
           new Date(note.updatedAt)
-        )
-      );
+        ));
       })
     );
   }
 
   getNote(id: string): Observable<Note> {
     return this.http.get<Note>(`${this.apiUrl}/${id}`).pipe(
-      map(note => new Note(
-        note.id,
+      map((note: any) => new Note(
+        note._id,
         note.title,
         note.content,
         note.groupId,
+        note.visibility,
         new Date(note.createdAt),
         new Date(note.updatedAt)
       ))
@@ -53,11 +53,12 @@ export class NoteService {
 
   addNote(note: Note): Observable<Note> {
     return this.http.post<Note>(this.apiUrl, note).pipe(
-      map(newNote => new Note(
-        newNote.id,
+      map((newNote: any) => new Note(
+        newNote._id,
         newNote.title,
         newNote.content,
-        note.groupId,
+        newNote.groupId,
+        newNote.visibility,
         new Date(newNote.createdAt),
         new Date(newNote.updatedAt)
       ))
@@ -66,11 +67,12 @@ export class NoteService {
 
   updateNote(note: Note): Observable<Note> {
     return this.http.put<Note>(`${this.apiUrl}/${note.id}`, note).pipe(
-      map(updatedNote => new Note(
-        updatedNote.id,
+      map((updatedNote: any) => new Note(
+        updatedNote._id,
         updatedNote.title,
         updatedNote.content,
-        note.groupId,
+        updatedNote.groupId,
+        updatedNote.visibility,
         new Date(updatedNote.createdAt),
         new Date(updatedNote.updatedAt)
       ))

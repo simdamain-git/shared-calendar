@@ -49,11 +49,14 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onClick(event: 'register' | 'login') {
+  onClick(event: 'register' | 'login' | 'forgotpassword') {
     switch(event) {
       case 'register':
         this.router.navigateByUrl('register');
         break;
+        case 'forgotpassword':
+          this.router.navigateByUrl('forgotpassword');
+          break;
       case 'login':
         this.onLogin();
         break;

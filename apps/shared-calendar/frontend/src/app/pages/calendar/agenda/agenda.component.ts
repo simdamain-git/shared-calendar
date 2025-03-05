@@ -6,6 +6,9 @@ import { calendarConfig } from '../../../utils/calendarConfig';
 import { CalendarService } from '../../../services/calendar.service';
 import { Event } from '../../../models/event';
 import { Router } from '@angular/router';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'; 
+import listPlugin from '@fullcalendar/list';
 
 @Component({
   selector: 'app-agenda',
@@ -40,6 +43,7 @@ export class AgendaComponent implements OnInit, AfterViewInit{
   loadEvents() {
     this.calendarService.getEvents().subscribe(
       (events: Event[]) => {
+        console.log('load');
         this.groups = this.groupEventsByDate(events);
         this.calendarOptions.events = events.map((event) => ({
           id: event.id,
@@ -95,19 +99,30 @@ export class AgendaComponent implements OnInit, AfterViewInit{
       );
     }
 
-  groupEventsByDate(events: Event[]): { date: Date; events: Event[] }[] {
-    const grouped = events.reduce((acc: any, event) => {
-      const dateKey = event.start.toDateString();
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
-      }
-      acc[dateKey].push(event);
-      return acc;
-    }, {});
-  
-    return Object.entries(grouped).map(([dateString, events]) => ({
-      date: new Date(dateString),
-      events: events as Event[]
-    })).sort((a, b) => a.date.getTime() - b.date.getTime());
-  }
+    groupEventsByDate(events: Event[]): { date: Date; events: Event[] }[] {
+      const now = new Date();
+    
+      // Filtrer les événements futurs ou en cours
+      const filteredEvents = events.filter(event => {
+        console.log(event);
+        console.log(new Date(event.start) <= now);
+        console.log(new Date(event.end) >= now);
+        console.log(new Date(event.start) <= now && new Date(event.end) >= now);
+        return new Date(event.start) <= now && new Date(event.end) >= now
+    });
+    
+      const grouped = filteredEvents.reduce((acc: any, event) => {
+        const dateKey = event.start.toDateString();
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+        acc[dateKey].push(event);
+        return acc;
+      }, {});
+    
+      return Object.entries(grouped).map(([dateString, events]) => ({
+        date: new Date(dateString),
+        events: events as Event[]
+      })).sort((a, b) => a.date.getTime() - b.date.getTime());
+    }
 }

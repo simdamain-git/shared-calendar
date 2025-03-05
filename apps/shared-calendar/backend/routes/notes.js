@@ -6,7 +6,12 @@ const router = express.Router();
 
 router.get('/notes', auth, async (req, res) => {
   try {
-    const notes = await Note.find({ userId: req.userData.userId }).sort({ createdAt: -1 });
+    const notes = await Note.find({
+      $or: [
+        { userId: req.userData.userId, visibility: 'private' },
+        { groupId: { $in: req.userData.groups }, visibility: 'group' }
+      ]
+    }).sort({ createdAt: -1 });
     res.json({ error: null, notes });
   } catch (error) {
     console.log(error);
@@ -17,7 +22,13 @@ router.get('/notes', auth, async (req, res) => {
 router.get('/notes/:id', auth, async (req, res) => {
   try {
     const noteId = req.params.id;
-    const note = await Note.findOne({ _id: noteId, userId: req.userData.userId });
+    const note = await Note.findOne({
+      _id: noteId,
+      $or: [
+        { userId: req.userData.userId },
+        { groupId: { $in: req.userData.groups } }
+      ]
+    });
     
     if (!note) {
       return res.status(404).json({ error: 'Note non trouvée' });
@@ -32,12 +43,13 @@ router.get('/notes/:id', auth, async (req, res) => {
 
 router.post('/notes', auth, async (req, res) => {
   try {
-    const { content, title, groupId } = req.body;
+    const { content, title, groupId, visibility } = req.body;
     const newNote = new Note({
       content,
       title,
       userId: req.userData.userId,
       groupId: groupId || null,
+      visibility: visibility || 'private',
       createdAt: Date.now(),
       lastUpdatedAt: Date.now()
     });
@@ -53,7 +65,7 @@ router.post('/notes', auth, async (req, res) => {
 router.put('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { content, title, groupId } = req.body;
+    const { content, title, groupId, visibility } = req.body;
     
     const updatedNote = await Note.findOneAndUpdate(
       { _id: id, userId: req.userData.userId },
@@ -61,6 +73,7 @@ router.put('/notes/:id', auth, async (req, res) => {
         content, 
         title,
         groupId: groupId || null,
+        visibility: visibility || 'private',
         lastUpdatedAt: Date.now()
       },
       { new: true, runValidators: true }
@@ -76,7 +89,6 @@ router.put('/notes/:id', auth, async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la mise à jour de la note' });
   }
 });
-
 
 router.delete('/notes/:id', auth, async (req, res) => {
   try {

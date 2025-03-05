@@ -1,4 +1,3 @@
-// routes/events.js
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
@@ -6,7 +5,12 @@ const auth = require('../middleware/auth');
 
 router.get('/events', auth, async (req, res) => {
   try {
-    const events = await Event.find({ userId: req.userData.userId }).sort({ dateTime: 1 });
+    const events = await Event.find({
+      $or: [
+        { userId: req.userData.userId, visibility: 'private' },
+        { groupId: { $in: req.userData.groups }, visibility: 'group' }
+      ]
+    }).sort({ dateTime: 1 });
     res.json(events);
   } catch (error) {
     console.error('Erreur dans /events:', error);
@@ -16,7 +20,13 @@ router.get('/events', auth, async (req, res) => {
 
 router.get('/events/:id', auth, async (req, res) => {
   try {
-    const event = await Event.findOne({ _id: req.params.id, userId: req.userData.userId });
+    const event = await Event.findOne({
+      _id: req.params.id,
+      $or: [
+        { userId: req.userData.userId },
+        { groupId: { $in: req.userData.groups } }
+      ]
+    });
     if (!event) {
       return res.status(404).json({ error: 'Événement non trouvé' });
     }

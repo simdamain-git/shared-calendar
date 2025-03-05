@@ -1,40 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NoteService } from '../../services/note.service';
-import { GroupService } from '../../services/group.service';
-import { Note } from '../../models/note';
+import { IonicModule } from '@ionic/angular';
 import { Group } from '../../models/group';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NoteService } from '../../services/note.service';
+import { Note } from '../../models/note';
+import { GroupService } from '../../services/group.service';
+
 
 @Component({
   selector: 'app-note-edit',
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './note-edit.component.html',
-  styleUrl: './note-edit.component.scss'
+  styleUrls: ['./note-edit.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    IonicModule
+  ]
 })
 export class NoteEditComponent implements OnInit {
-  public note: Note;
+  public noteForm: FormGroup;
   public groups: Group[];
   isNewNote = true;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private noteService: NoteService,
     private groupService: GroupService,
     private router: Router
   ) {
-    this.note = new Note();
     this.groups = [];
   }
 
   ngOnInit() {
     this.isNewNote = this.route.snapshot.paramMap.get('id') === 'new';
+    this.noteForm = this.fb.group({
+      groupId: [null],
+      title: ['', Validators.required],
+      content: ['', Validators.required]
+    });
+
     if (!this.isNewNote) {
-      this.note = this.noteService.currentNote ?? new Note();
+      const currentNote = this.noteService.currentNote;
+      if (currentNote) {
+        this.noteForm.patchValue({
+          groupId: currentNote.groupId,
+          title: currentNote.title,
+          content: currentNote.content
+        });
+      }
     }
+
     this.loadGroups();
   }
 
@@ -46,12 +66,23 @@ export class NoteEditComponent implements OnInit {
   }
 
   saveNote() {
-    const obs = this.isNewNote ? this.noteService.addNote(this.note) : this.noteService.updateNote(this.note);
+    if (this.noteForm.invalid) {
+      return;
+    }
+
+    const noteData = new Note(
+      this.isNewNote ? '' : this.noteService.currentNote.id,
+      this.noteForm.value.title,
+      this.noteForm.value.content,
+      this.noteForm.value.groupId,
+      'private', // or 'group' based on your logic
+      new Date(),
+      new Date()
+    );
+
+    const obs = this.isNewNote ? this.noteService.addNote(noteData) : this.noteService.updateNote(noteData);
     obs.subscribe(
-      result => {
-        console.log('Note sauvegardée:', result);
-        this.router.navigateByUrl('notes');
-      },
+      () => this.router.navigate(['/notes']),
       error => console.error('Erreur lors de la sauvegarde de la note', error)
     );
   }
