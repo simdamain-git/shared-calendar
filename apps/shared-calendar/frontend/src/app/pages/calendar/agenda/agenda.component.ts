@@ -43,7 +43,6 @@ export class AgendaComponent implements OnInit, AfterViewInit{
   loadEvents() {
     this.calendarService.getEvents().subscribe(
       (events: Event[]) => {
-        console.log('load');
         this.groups = this.groupEventsByDate(events);
         this.calendarOptions.events = events.map((event) => ({
           id: event.id,
@@ -104,10 +103,6 @@ export class AgendaComponent implements OnInit, AfterViewInit{
     
       // Filtrer les événements futurs ou en cours
       const filteredEvents = events.filter(event => {
-        console.log(event);
-        console.log(new Date(event.start) <= now);
-        console.log(new Date(event.end) >= now);
-        console.log(new Date(event.start) <= now && new Date(event.end) >= now);
         return new Date(event.start) <= now && new Date(event.end) >= now
     });
     

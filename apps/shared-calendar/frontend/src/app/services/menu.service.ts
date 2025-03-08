@@ -11,7 +11,7 @@ interface Page {
 })
 export class MenuService {
   public appPages: Page[] = [
-    { title: 'menu.calendar', url: '/agenda', icon: 'calendar' },
+    { title: 'menu.calendar', url: '/agenda/calendar', icon: 'calendar' },
     { title: 'menu.notes', url: '/notes', icon: 'clipboard' },
     // { title: 'menu.rappel', url: '/rappel', icon: 'alarm' },
     // { title: 'menu.courses', url: '/courses', icon: 'cart' }

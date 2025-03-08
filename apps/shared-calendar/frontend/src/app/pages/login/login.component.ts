@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +21,11 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading: boolean = false;
 
+  errorLabel = '';
+
   constructor(
     private formBuilder: FormBuilder,
+    private loadingService: LoadingService,
     private auth: AuthService,
     private router: Router
   ) {}
@@ -35,15 +39,17 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginForm.valid) {
-      this.isLoading = true;
+      this.loadingService.show();
       const { email, password } = this.loginForm.value;
       this.auth.userLogin({ email, password }).subscribe(
         (result) => {
           this.router.navigateByUrl('');
+          this.loadingService.hide();
         },
         (error) => {
           console.error('Login error', error);
-          this.isLoading = false;
+          this.errorLabel = error.error.message;
+          this.loadingService.hide();
         }
       );
     }

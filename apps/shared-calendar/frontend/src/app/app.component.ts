@@ -1,5 +1,6 @@
 import {
   ActivatedRoute,
+  NavigationEnd,
   Params,
   Router,
   RouterLink,
@@ -8,6 +9,7 @@ import {
 import {
   IonApp,
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -17,7 +19,8 @@ import {
   IonMenuToggle,
   IonRouterLink,
   IonRouterOutlet,
-  IonSplitPane,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgZone, ViewChild } from '@angular/core';
@@ -27,18 +30,21 @@ import { IconLoader } from './utils/icon-loader';
 import { LoadingService } from './services/loading.service';
 import { RouterModule } from '@angular/router';
 import { MenuService } from './services/menu.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    IonHeader,
+    IonTitle,
+    IonToolbar,
     IonLoading,
     RouterModule,
     RouterLink,
     RouterLinkActive,
     CommonModule,
     IonApp,
-    IonSplitPane,
     IonMenu,
     IonContent,
     IonList,
@@ -56,6 +62,7 @@ import { MenuService } from './services/menu.service';
 export class AppComponent implements AfterViewInit {
 
   @ViewChild('loading') loading?: IonLoading;
+
   constructor(
     public menuService: MenuService,
     private translateSrv: TranslateService,
@@ -69,6 +76,7 @@ export class AppComponent implements AfterViewInit {
     this.initAppListener();
     IconLoader.load();
   }
+
   initAppListener() {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {

@@ -39,7 +39,6 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.isLoading = true;
-    console.log('Email:', this.forgotPasswordForm.value.email);
     this.auth.forgotPassword(this.forgotPasswordForm.value.email).subscribe(
       response => {
         console.log('Response:', response);
