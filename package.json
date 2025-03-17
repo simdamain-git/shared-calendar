@@ -10,7 +10,8 @@
     "scripts": {
         "start:backend": "cd apps/shared-calendar/backend && nodemon server.js",
         "start:frontend": "cd apps/shared-calendar/frontend && ng serve --proxy-config proxy.conf.json",
-        "start": "npm-run-all --parallel start:backend start:frontend"
+        "start": "npm-run-all --parallel start:backend start:frontend",
+        "build-frontend": "ng build --prod --project=frontend2"
     },
     "keywords": [],
     "author": "Simon Damain",

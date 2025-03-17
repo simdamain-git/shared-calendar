@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/shared-calendar/frontend/**",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "apps/shared-calendar/frontend/dist/frontend2"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
