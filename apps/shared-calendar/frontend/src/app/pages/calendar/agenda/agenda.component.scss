@@ -34,7 +34,7 @@
         z-index: 1;
       }
     }
-    
+
 
     .event-item {
       margin-bottom: 16px;
@@ -79,7 +79,7 @@
     .event-buttons {
       display: flex;
       align-items: center;
-      
+
       ion-button {
         --padding-start: 5px;
         --padding-end: 5px;
@@ -87,4 +87,9 @@
       }
     }
   }
+}
+
+.fc-event:hover {
+  background-color: inherit !important;
+  border-color: inherit !important;
 }

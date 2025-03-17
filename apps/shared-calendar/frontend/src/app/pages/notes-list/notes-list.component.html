@@ -5,6 +5,9 @@
               {{ note.title }}
               <p>{{ note.content | slice:0:50 }}</p>
             </ion-label>
+            <ion-button fill="clear" (click)="deleteNote(note.id, $event)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
           </ion-item>
       }
     </ion-list>

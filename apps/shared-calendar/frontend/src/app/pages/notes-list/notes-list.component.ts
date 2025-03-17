@@ -35,4 +35,11 @@ export class NotesListComponent implements OnInit {
     this.noteService.currentNote = note
     this.router.navigateByUrl(`/notes-edit/${note.id}`);
   }
+
+  deleteNote(id: string, event: Event) {
+    event.stopPropagation();
+    this.noteService.deleteNote(id).subscribe(() => {
+      this.notes$ = this.noteService.getNotes();
+    });
+  }
 }

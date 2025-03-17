@@ -94,14 +94,15 @@ router.delete('/notes/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
     const note = await Note.findOne({ _id: id, userId: req.userData.userId });
-
     if (!note) {
       return res.status(404).json({ error: 'Cet identifiant est inconnu' });
     }
 
-    await note.remove();
+    await Note.deleteOne({ _id: id, userId: req.userData.userId });
+    console.log('Note supprimée :', note);
     res.json({ error: null });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Erreur lors de la suppression de la note' });
   }
 });
