@@ -1,0 +1,11 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+<IfModule mod_passenger.c>
+  PassengerEnabled on
+  PassengerBaseURI /
+  PassengerAppRoot "/home/sc1qahi7514/api.sc1qahi7514.universe.wf"
+  PassengerAppType node
+  PassengerStartupFile server.js
+  PassengerNodejs "/home/sc1qahi7514/nodevenv/api.sc1qahi7514.universe.wf/20/bin/node"
+  PassengerFriendlyErrorPages off
+  PassengerAppEnv production
+</IfModule>
