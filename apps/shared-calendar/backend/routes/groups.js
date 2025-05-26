@@ -4,9 +4,9 @@ const Group = require('../models/Group')
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
+console.log('Chargement de groups.js');
 router.get('/groups', auth, async (req, res) => {
   try {
-    console.log(req, res);
     const groups = await Group.find({ members: req.userData.userId })
     .populate('members', 'email')
     .sort({ createdAt: -1 });

@@ -3,6 +3,8 @@ const router = express.Router();
 const Event = require('../models/Event');
 const auth = require('../middleware/auth');
 
+
+console.log('Chargement de events.js');
 router.get('/events', auth, async (req, res) => {
   try {
     const events = await Event.find({

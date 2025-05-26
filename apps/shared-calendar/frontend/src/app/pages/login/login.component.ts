@@ -68,4 +68,15 @@ export class LoginComponent implements OnInit {
         break;
     }
   }
+
+  ping() {
+    this.auth.pingDatabase().subscribe(
+      (response) => {
+        console.log('Ping successful:', response);
+      },
+      (error) => {
+        console.error('Ping failed:', error);
+      }
+    );
+  }
 }

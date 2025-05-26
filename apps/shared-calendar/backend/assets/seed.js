@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Note = require('./models/Note');
-const Event = require('./models/Event');
+const Note = require('../models/Note');
+const Event = require('../models/Event');
 
 const notes = [
   {

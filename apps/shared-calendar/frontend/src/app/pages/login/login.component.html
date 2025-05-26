@@ -13,18 +13,22 @@
     <div class="form">
       <div class="item">
         <ion-label>Email</ion-label>
-        <ion-input class="custom-input" formControlName="email" shape="round" placeholder="ex: jon.smith@email.com"></ion-input>
+        <input class="custom-input" formControlName="email" shape="round" placeholder="ex: jon.smith@email.com">
+       <!-- <ion-input class="custom-input" formControlName="email" shape="round" placeholder="ex: jon.smith@email.com"></ion-input> -->
       </div>
-      
+
       <div class="item">
         <ion-label>Password</ion-label>
-        <ion-input class="custom-input" formControlName="password" shape="round" placeholder="*********" type="password"></ion-input>
+        <input class="custom-input" formControlName="password" shape="round" placeholder="*********" type="password">
+        <!-- <ion-input class="custom-input" formControlName="password" shape="round" placeholder="*********" type="password"></ion-input> -->
       </div>
     </div>
 
     <div class="item">
       <ion-label>{{errorLabel}}</ion-label>
     </div>
+
+    <ion-button expand="block" (click)="ping()">Ping Database</ion-button>
 
     <div class="actions">
       <ion-button expand="block" type="submit" [disabled]="!loginForm.valid || isLoading">Connexion</ion-button>

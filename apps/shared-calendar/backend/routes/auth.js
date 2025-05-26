@@ -3,12 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 
 const router = express.Router();
-
+console.log('Chargement de auth.js');
 function generateTokens(userId) {
   const token = jwt.sign({ userId }, process.env.JWT_KEY, { expiresIn: '1h' });
   const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' });
@@ -63,16 +64,23 @@ router.post('/signin', async (req, res) => {
   try {
     const errorMessage = 'Erreur lors de la connexion';
     const { email, password } = req.body;
-    
-    if (password.length < 4 || !email) {
+
+    if (!email || password.length < 4) {
       return res.status(400).json({ error: errorMessage });
     }
-    
-    const user = await User.findOne({ email });    
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.error('User not found');
       return res.status(403).json({ error: errorMessage });
     }
-    
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      console.error('Invalid password');
+      return res.status(403).json({ error: errorMessage });
+    }
+
     const { token, refreshToken } = generateTokens(user._id);
     res.json({
       token,
@@ -80,7 +88,7 @@ router.post('/signin', async (req, res) => {
       user: { id: user._id, email: user.email }
     });
   } catch (error) {
-    console.log('test', error);
+    console.error('Signin error:', error);
     res.status(500).json({ error: 'Erreur lors de la connexion' });
   }
 });
@@ -174,6 +182,20 @@ router.post('/reset-password', async (req, res) => {
   } catch (error) {
     console.error('Erreur lors de la réinitialisation:', error);
     res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// Ping route to check database connection
+router.get('/ping', async (req, res) => {
+  console.log('/ping');
+  try {
+    // Perform a simple database operation to check the connection
+    await mongoose.connection.db.admin().ping();
+    console.log('Database connection is healthy');
+    res.status(200).json({ message: 'Database connection is healthy' });
+  } catch (error) {
+    console.error('Database ping failed:', error);
+    res.status(500).json({ error: 'Database connection failed' });
   }
 });
 

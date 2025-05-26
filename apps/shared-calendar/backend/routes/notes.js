@@ -4,6 +4,8 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+
+console.log('Chargement de notes.js');
 router.get('/notes', auth, async (req, res) => {
   try {
     const notes = await Note.find({

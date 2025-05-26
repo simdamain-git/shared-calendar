@@ -17,7 +17,7 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = environment.API_URL;
+  private readonly API_URL = environment.API_URL + 'auth/'; //API_URL: './api/'
   private readonly TOKEN_KEY = 'auth_token';
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'user_info';
@@ -55,7 +55,7 @@ export class AuthService {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(this.TOKEN_KEY);
     }
-    return null; 
+    return null;
   }
 
   isLoggedIn(): boolean {
@@ -73,5 +73,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.API_URL}refresh-token`, { refreshToken }).pipe(
       tap(response => this.handleAuthResponse(response))
     );
+  }
+
+  pingDatabase() {
+    return this.http.get('/api/ping');
   }
 }
