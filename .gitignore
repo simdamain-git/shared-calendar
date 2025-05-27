@@ -134,3 +134,4 @@ yarn.lock
 package-lock.json
 !/package-lock.json
 
+apps/shared-calendar/backend/package-lock.json

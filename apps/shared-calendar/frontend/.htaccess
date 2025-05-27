@@ -1,0 +1,13 @@
+PassengerAppEnv development
+PassengerFriendlyErrorPages on
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # 1. Ne pas réécrire /api → laisser passer vers Node.js géré par Passenger
+  RewriteRule ^api/ - [L]
+  # 2. Laisser passer les fichiers statiques (assets Angular)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  # 3. Rediriger toutes les autres requêtes vers index.html (Angular SPA)
+  RewriteRule ^ index.html [L]
+</IfModule>
