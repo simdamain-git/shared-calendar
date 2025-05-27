@@ -133,5 +133,6 @@ dist
 yarn.lock
 package-lock.json
 !/package-lock.json
+!/yarn.lock
 
 apps/shared-calendar/backend/package-lock.json
